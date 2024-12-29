@@ -2,27 +2,33 @@ const postsDiv = document.querySelector('#posts')
 const singlePost = document.querySelector('.main_section');
 const next = document.createElement('button')
 const previous = document.createElement('button')
+
 const starSOlid = `<i class="fa-solid fa-star"></i>`;
 const starNormal = `<i class="fa-regular fa-star"></i>`;
 
 
 
-const currentPage = 1;
+const currentPage = 0;
 
 
 
 function fetchFunction(page) {
     const productPerPage = 10;
     postsDiv.innerHTML = '';
-    fetch(`https://dummyjson.com/posts?limit=${productPerPage}&skip=${(page - 1) * productPerPage}`)
+    fetch(`https://dummyjson.com/posts?limit=${productPerPage}&skip=${page * productPerPage}`)
         .then(response => response.json())
         // .then(console.log)
         .then(data => {
             data.posts.forEach(post => {
                 const postDiv = document.createElement('article');
                 postDiv.innerHTML = (`
-
+                        
                         <article class="article_width">
+                            <div class="spinner-border mx-auto" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <img id="backgroundImg" src="./images.jpg" alt="">
+
                             <h2 class="h2">${post.title}</h2>
                             <p class="p">${post.body}</p>
                             <p class="p">${post.reactions}</p>
@@ -31,9 +37,11 @@ function fetchFunction(page) {
                                 <p class="p">${post.views}</p>
                             </section>
                         </article>
-                        
-                    
                     `)
+
+                    postDiv.querySelector(`img`).addEventListener('load', () => {
+                        postDiv.querySelector('.spinner-border').remove()
+                    })
                 
                     postDiv.addEventListener('click', () => {
                         
@@ -43,6 +51,7 @@ function fetchFunction(page) {
                             .then(response => response.json())
                             .then((singlePost1) => {  
                                 backButton = document.createElement('button')
+                                backButton.classList.add('.buttons')
                                 backButton.addEventListener("click", () => {
                                     fetchFunction(page)
                                 }) 
@@ -71,7 +80,7 @@ function fetchFunction(page) {
             })
            
         
-            if (page != 1){
+            if (page != 0){
                 previous.innerText = ('previous')
                 postsDiv.appendChild(previous)
                 previous.addEventListener('click', () => {
@@ -107,7 +116,8 @@ function fetchFunction(page) {
     
 }
 
-
+next.classList.add('.buttons')
+previous.classList.add('.buttons')
 
 
 fetchFunction(currentPage)

@@ -27,7 +27,7 @@
     padding: 5px;
     width: min(100%, 400px);
     max-width: 400px;
-    height: 500px;
+    height: 700px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -53,3 +53,8 @@
     cursor: pointer;
 }
 
+.buttons {
+    display: inline-block;
+    width: 100px;
+    height: 10px;
+}
