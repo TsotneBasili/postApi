@@ -12,7 +12,7 @@ const currentPage = 1;
 
 
 function fetchFunction(page) {
-    const productPerPage = 100;
+    const productPerPage = 10;
     postsDiv.innerHTML = '';
     fetch(`https://dummyjson.com/posts?limit=${productPerPage}&skip=${(page - 1) * productPerPage}`)
         .then(response => response.json())
@@ -76,8 +76,12 @@ function fetchFunction(page) {
                 postsDiv.appendChild(previous)
                 previous.addEventListener('click', () => {
                     page -= 1
+                    postsDiv.removeChild(previous)
+                    fetchFunction(page)
                 })    
             }
+
+
 
             if (page === Math.ceil(data.total / productPerPage)){
                 postsDiv.removeChild(next)
